@@ -6,7 +6,8 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "smoke-test": "curl http://localhost:3000/ && curl http://localhost:3000/chat && curl http://localhost:3000/journal && curl http://localhost:3000/mood"
     },
     "dependencies": {
         "@babel/parser": "^7.28.5",
