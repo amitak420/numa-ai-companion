@@ -6,40 +6,29 @@ const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
-      },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
     ],
   },
 
+  // keep original tracing root if repo uses monorepo layout
   outputFileTracingRoot: path.resolve(__dirname, '../../'),
 
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // be tolerant for build (so types do not block)
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
 
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // force stable default build output dir
+  distDir: ".next",
 
-  // THIS IS THE FIX:
-  experimental: {
-    turbo: false,
-  },
+  // Do NOT include experimental.turbo or turbopack config here.
+  // If you had custom turbopack loaders, keep loader file but do NOT enable turbopack.
 
-  // FORCE DISABLE TURBOPACK (required)
+  // Keep a minimal webpack passthrough if needed (no turbopack modifications)
   webpack: (config) => {
-    // Remove turbopack loader config
+    // No modifications — return config as-is
     return config;
   },
-
-  // Set dist folder manually (stabilizes output)
-  distDir: ".next",
 };
 
 export default nextConfig;
